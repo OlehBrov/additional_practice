@@ -1,38 +1,32 @@
 import { nanoid } from 'nanoid';
-import { StudyForm } from './StudyForm/StudyForm';
+import StudyForm from './StudyForm/StudyForm';
 import { ListStudy } from './ListStudy/ListStudy';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import TodosContextState from './utils/TodoContext';
+import { useTodosContext } from './utils/TodoContext';
 
 const App = () => {
-  const [todos, setTodos] = useState([]);
-
-  useEffect(() => {
-    console.log('todos', todos);
-  }, [todos]);
-  useEffect(() => {
-    const savedTodos = localStorage.getItem('todos');
-    if (savedTodos.length > 0) setTodos(JSON.parse(savedTodos));
-  }, []);
+  const contextState = useTodosContext();
 
   const createTodo = todoItem => {
     const todo = {
       todo: todoItem,
       id: nanoid(),
     };
-    console.log('todo obj', todo);
-    setTodos([...todos, todo]);
-    const todosToLocal = JSON.stringify(todos);
-    localStorage.setItem('todos', todosToLocal);
+
+    contextState.setTodos([...contextState.todosArray, todo]);
+    contextState.setMarker(true);
   };
 
   const deleteTodo = todoId => {
     console.log(todoId);
-    setTodos(todos.filter(el => el.id !== todoId));
+    contextState.setTodos(contextState.todos.filter(el => el.id !== todoId));
+    contextState.setMarker(true);
   };
   return (
     <>
       <StudyForm createTasks={createTodo} />
-      <ListStudy todos={todos} deleteTodo={deleteTodo} />
+      <ListStudy deleteTodo={deleteTodo} />
     </>
   );
 };

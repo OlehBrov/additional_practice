@@ -1,39 +1,36 @@
-import { Component } from 'react';
+import { useState } from 'react';
 
-export class StudyForm extends Component {
-  state = {
-    task: '',
+
+const StudyForm = ({createTasks}) => {
+  const [task, setTask] = useState('');
+
+  const checkValueInput = e => {
+    const { value } = e.target;
+    setTask(value);
   };
 
-  checkValueInput = e => {
-    const { name, value } = e.target;
-    this.setState({
-      [name]: value,
-    });
-  };
-
-  onSubmit = e => {
+ const onSubmit = e => {
     e.preventDefault();
-      this.resetForm();
-      console.log(this.props)
-      this.props.createTasks(this.state.task)
+   createTasks(task);
+         resetForm();
+
   };
-  resetForm = () => {
-    this.setState({ task: '' });
+ const resetForm = () => {
+    setTask('');
   };
 
-  render() {
-    return (
-      <form onSubmit={this.onSubmit}>
+  return  (
+      <form onSubmit={onSubmit}>
         <input
           type="text"
           name="task"
           id="task"
-          value={this.state.task}
-          onChange={this.checkValueInput}
+          value={task}
+          onChange={checkValueInput}
         />
         <button type="submit">AddTask</button>
       </form>
     );
-  }
 }
+
+export default StudyForm
