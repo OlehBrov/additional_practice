@@ -1,8 +1,8 @@
 {
-  "name": "practice2503",
+  "name": "additional",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://OlehBrov.github.io/practice2503/",
+  "homepage": "https://OlehBrov.github.io/additional_practice/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
