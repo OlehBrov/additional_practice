@@ -1,17 +1,21 @@
 import { nanoid } from 'nanoid';
 import StudyForm from './StudyForm/StudyForm';
 import { ListStudy } from './ListStudy/ListStudy';
-import { useContext, useEffect, useState } from 'react';
-import TodosContextState from './utils/TodoContext';
 import { useTodosContext } from './utils/TodoContext';
+import ContainerTodos from './ContentView/ContentView';
 
 const App = () => {
   const contextState = useTodosContext();
 
-  const createTodo = todoItem => {
+  const createTodo = (todoItem, startDate) => {
+    // const dateString = startDate.toDateString();
+    // console.log('APP startDate', startDate);
     const todo = {
       todo: todoItem,
       id: nanoid(),
+      done: false,
+      date: startDate,
+      overdue: false,
     };
 
     contextState.setTodos([...contextState.todosArray, todo]);
@@ -19,14 +23,16 @@ const App = () => {
   };
 
   const deleteTodo = todoId => {
-    console.log(todoId);
+    // console.log(todoId);
     contextState.setTodos(contextState.todos.filter(el => el.id !== todoId));
     contextState.setMarker(true);
   };
   return (
     <>
       <StudyForm createTasks={createTodo} />
-      <ListStudy deleteTodo={deleteTodo} />
+      <ContainerTodos>
+        <ListStudy deleteTodo={deleteTodo} />
+      </ContainerTodos>
     </>
   );
 };
